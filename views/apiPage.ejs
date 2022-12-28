@@ -1,0 +1,43 @@
+<%- include('./partials/headers.ejs') %>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: auto;
+            padding: 20px;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<h1>This is API test page to check for your roles</h1>
+<p><ul>
+    <li>Test API for <%= userData.username %></li>
+</ul></p>
+
+<table>
+    <tr>
+        <th>API Routes</th>
+        <th>Minimum Allowed<br>Permission</th>
+        <th>Allowed for<br>Current Session?</th>
+    </tr>
+    <% if (apiData) { %>
+        <% apiData.forEach((item) => { %>
+            <tr>
+                <td><a href="<%= item.route %>"><%= item.route %></a></td>
+                <td><%= item.minPerm %></td>
+                <td><%= item.currentSession %></td>
+            </tr>
+        <% })} %>
+</table>

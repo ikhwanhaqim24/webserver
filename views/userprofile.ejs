@@ -1,0 +1,14 @@
+<%- include('./partials/headers.ejs') %>
+<h1>
+    User Profile (Access Level: <%= access %>)
+</h1>
+<p>
+    Welcome <%= userData.username %>! You are in profile area.
+</p>
+<img width="100" height="100" src="https://static.vecteezy.com/system/resources/previews/004/511/281/original/default-avatar-photo-placeholder-profile-picture-vector.jpg"></img>
+<ul>
+    <li><a href="/">Home</a></li>
+    <form action="/logout" method="post">
+        <button class="fromTop brk-btn-start">Logout</button>
+    </form>
+</ul>

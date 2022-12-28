@@ -1,0 +1,10 @@
+<%- include('./partials/headers.ejs') %>
+<h1>This is a homepage.</h1>
+<p><ul>
+    <% if (loggedIn) { %>
+    <li>Welcome! Go to your <a href="/profile">Profile</a> to begin</li>
+    <% } else { %>
+    <li><a href="/login">Login</a> or <a href="/register">Register</a> to begin</li>
+    <% } %>
+    <li>Test <a href="/api/test">API</a> to check for your permission</li>
+</ul></p>

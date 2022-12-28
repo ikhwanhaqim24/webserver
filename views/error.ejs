@@ -1,0 +1,17 @@
+<%- include('./partials/headers.ejs') %>
+<% if (error) { %>
+<h1>Error <%= error.number %></h1>
+<p><ul>
+    An error occured.<br>
+    <ul>Message: <%= error.message %></ul>
+</ul></p>
+<% } else { %>
+    <h1>You've encountered an error</h1>
+<p><ul>
+    An error occured.<br>
+    <ul>Message: Cannot determine error</ul>
+</ul></p>
+<% } %>
+<ul>
+    <li><a href="/">Take me to Homepage</a></li>
+</ul>
