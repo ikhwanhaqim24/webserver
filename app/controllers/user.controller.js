@@ -18,10 +18,12 @@ exports.testBoard = (req,res) => {
     var userData = req.session.userData
     var modSession = "FALSE"
     var adminSession = "FALSE"
+    var userSession = "FALSE"
 
     if (userData) {
-        modSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : "FALSE")
-        adminSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : "FALSE")
+        modSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : modSession)
+        adminSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : adminSession)
+        userSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : userSession)
     } else {
         userData = {
             username: "Guest"
@@ -34,7 +36,7 @@ exports.testBoard = (req,res) => {
     }, {
         route: "/profile",
         minPerm: "USER",
-        currentSession: (req.session.loggedIn ? "TRUE" : "FALSE")
+        currentSession: userSession
     }, {
         route: "/mod",
         minPerm: "MODERATOR",

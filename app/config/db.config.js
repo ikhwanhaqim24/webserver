@@ -1,3 +1,13 @@
+var remoteHost = process.env.DBHOST
+var mongoPath = process.env.MONGOPATH
+var mongoPort = process.env.REMOTEPORT
+var useAtlas = process.env.ENABLEATLAS
+var user, password, database = "onetimepad"
+
+var mongoString = `mongodb://${user}:${password}@${remoteHost}:${mongoPort}/${database}`
+
+if (!useAtlas) mongoPath = mongoString
+
 module.exports = {
-    PATH: 'mongodb+srv://m001-student:m001-mongodb-basics@sandbox.mkrqn.mongodb.net/onetimepad?retryWrites=true&w=majority'
+    PATH: mongoPath
     };

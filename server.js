@@ -2,10 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
+require('dotenv').config()
+
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:8080"
 };
 
 app.set("view engine","ejs");
@@ -20,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     cookieSession({
-    name: "bezkoder-session",
+    name: "onetimepad-session",
     secret: "COOKIE_SECRET", // should use as secret environment variable
     httpOnly: true
     })
@@ -36,7 +38,7 @@ db.mongoose
     useUnifiedTopology: true
     })
     .then(() => {
-    console.log("Successfully connect to MongoDB.");
+    console.log(`Successfully connect to MongoDB (${process.env.ENABLEATLAS ? "Atlas" : `Remote Server: ${process.env.DBHOST}`})`);
     db.init(db.role);
     })
     .catch(err => {
@@ -51,5 +53,5 @@ require('./app/routes/user.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server RUNNING on port ${PORT}`);
 });
