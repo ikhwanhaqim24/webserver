@@ -30,13 +30,23 @@ app.use(
 
 const db = require("./app/models");
 const dbConfig = require("./app/config/db.config");
-
-db.mongoose
-    .set('strictQuery', true)
-    .connect(dbConfig.PATH, {
+var mongoOptions = {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-    })
+    useUnifiedTopology: true,
+    }
+
+if (process.env.SSL === 'true') {
+    mongoOptions.ssl = true
+    mongoOptions.sslValidate = true
+    mongoOptions.sslCA = process.env.CERTCA
+    mongoOptions.sslKey = process.env.CERTKEY
+    mongoOptions.sslCert = process.env.CERTKEY
+}
+
+//const initDB = async () => {
+    db.mongoose
+    .set('strictQuery', true)
+    .connect(dbConfig.PATH, mongoOptions)
     .then(() => {
     console.log(`Successfully connect to MongoDB (${process.env.ENABLEATLAS === 'true' ? "Atlas" : `Remote Server: ${process.env.DBHOST}`})`);
     db.init(db.role);
@@ -45,6 +55,7 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
     });
+//}
 
 // simple route
 require('./app/routes/auth.routes')(app);
@@ -55,4 +66,5 @@ const PORT = process.env.WEBPORT || 8080;
 const HOST = process.env.WEBHOST || "127.0.0.1"
 app.listen(PORT, HOST, () => {
     console.log(`Server RUNNING on ${HOST}:${PORT}`);
+    //initDB()
 });
