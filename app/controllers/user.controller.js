@@ -1,5 +1,5 @@
 exports.allAccess = (req, res) => {
-    return res.status(200).send("This is a public content.");
+    return res.status(200).render("public")
 };
 
 exports.userBoard = (req, res) => {
@@ -22,8 +22,8 @@ exports.testBoard = (req,res) => {
 
     if (userData) {
         modSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : modSession)
-        adminSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : adminSession)
-        userSession = (userData.roles.includes("ROLE_MODERATOR") ? "TRUE" : userSession)
+        adminSession = (userData.roles.includes("ROLE_ADMIN") ? "TRUE" : adminSession)
+        userSession = (userData.roles.includes("ROLE_USER") ? "TRUE" : userSession)
     } else {
         userData = {
             username: "Guest"
