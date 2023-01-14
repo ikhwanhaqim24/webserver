@@ -38,7 +38,7 @@ db.mongoose
     useUnifiedTopology: true
     })
     .then(() => {
-    console.log(`Successfully connect to MongoDB (${process.env.ENABLEATLAS ? "Atlas" : `Remote Server: ${process.env.DBHOST}`})`);
+    console.log(`Successfully connect to MongoDB (${process.env.ENABLEATLAS === 'true' ? "Atlas" : `Remote Server: ${process.env.DBHOST}`})`);
     db.init(db.role);
     })
     .catch(err => {
@@ -52,6 +52,7 @@ require('./app/routes/user.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+const HOST = "10.131.9.201"
+app.listen(PORT, HOST, () => {
     console.log(`Server RUNNING on port ${PORT}`);
 });
