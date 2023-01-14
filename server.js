@@ -51,8 +51,8 @@ require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
-const HOST = "10.131.9.201"
+const PORT = process.env.WEBPORT || 8080;
+const HOST = process.env.WEBHOST || "127.0.0.1"
 app.listen(PORT, HOST, () => {
-    console.log(`Server RUNNING on port ${PORT}`);
+    console.log(`Server RUNNING on ${HOST}:${PORT}`);
 });
