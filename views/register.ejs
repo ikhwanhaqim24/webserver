@@ -2,13 +2,19 @@
 <h1>
     SignUp Page
 </h1>
-<form action="/api/auth/signup" method="POST">
+<form action="/register" method="POST">
     <label for="username">UserName</label>
     <input type="text" id="username" name="username">
     <label for="password">Password</label>
     <input type="password" id="password" name="password">
     <label for="email">Email</label>
     <input type="email" id="email" name="email">
+    <% if (typeof error !== "undefined") { %>
+        <p><%= error.message %></p>
+    <% } %>
+    <% if (typeof success !== "undefined") { %>
+        <p><%= success.message %></p>
+    <% } %>
     <button>Submit</button>
 </form>
 <ul>

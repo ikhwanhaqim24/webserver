@@ -7,6 +7,27 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
+    if (!req.body.username) {
+        res.status(500).render("register", { error: {
+            message: "Please input username",
+            number: 500
+        }})
+        return;
+    }
+    if (!req.body.email) {
+        res.status(500).render("register", { error: {
+            message: "Please input email",
+            number: 500
+        }})
+        return;
+    }
+    if (!req.body.password) {
+        res.status(500).render("register", { error: {
+            message: "Please input password",
+            number: 500
+        }})
+        return;
+    }
     const user = new User({
         username: req.body.username,
         email: req.body.email,
@@ -15,7 +36,7 @@ exports.signup = (req, res) => {
 
     user.save((err, user) => {
         if (err) {
-            res.status(500).render("error", { error: {
+            res.status(500).render("register", { error: {
                 message: err,
                 number: 500
             }})
@@ -30,7 +51,7 @@ exports.signup = (req, res) => {
                 },
                 (err, roles) => {
                     if (err) {
-                        res.status(500).render("error", { error: {
+                        res.status(500).render("register", { error: {
                             message: err,
                             number: 500
                         }})
@@ -40,16 +61,18 @@ exports.signup = (req, res) => {
                     user.roles = roles.map((role) => role._id);
                     user.save((err) => {
                         if (err) {
-                            res.status(500).render("error", { error: {
+                            res.status(500).render("register", { error: {
                                 message: err,
                                 number: 500
                             }})
                             return;
                         }
 
-                        res.send({
-                            message: "User was registered successfully!"
-                        });
+                        res.status(200).render("register", {
+                            success: {
+                                message: "Registered successfully!"
+                            }
+                        })
                     });
                 }
             );
@@ -58,7 +81,7 @@ exports.signup = (req, res) => {
                 name: "user"
             }, (err, role) => {
                 if (err) {
-                    res.status(500).render("error", { error: {
+                    res.status(500).render("register", { error: {
                         message: err,
                         number: 500
                     }})
@@ -68,16 +91,18 @@ exports.signup = (req, res) => {
                 user.roles = [role._id];
                 user.save((err) => {
                     if (err) {
-                        res.status(500).render("error", { error: {
+                        res.status(500).render("register", { error: {
                             message: err,
                             number: 500
                         }})
                         return;
                     }
 
-                    res.send({
-                        message: "User was registered successfully!"
-                    });
+                    res.status(200).render("register", {
+                        success: {
+                            message: "Registered successfully!"
+                        }
+                    })
                 });
             });
         }
@@ -91,7 +116,7 @@ exports.signin = (req, res) => {
         .populate("roles", "-__v")
         .exec((err, user) => {
             if (err) {
-                res.status(500).render("error", { error: {
+                res.status(500).render("login", { error: {
                     message: err,
                     number: 500
                 }})
@@ -99,8 +124,8 @@ exports.signin = (req, res) => {
             }
 
             if (!user) {
-                return res.status(404).render("error", { error: {
-                    message: "User not found",
+                return res.status(404).render("login", { error: {
+                    message: "Username not found",
                     number: 404
                 }})
             }
@@ -111,7 +136,7 @@ exports.signin = (req, res) => {
             );
 
             if (!passwordIsValid) {
-                return res.status(401).render("error", { error: {
+                return res.status(401).render("login", { error: {
                     message: "Invalid Password",
                     number: 401
                 }})
@@ -120,7 +145,7 @@ exports.signin = (req, res) => {
             var token = jwt.sign({
                 id: user.id
             }, config.secret, {
-                expiresIn: 86400, // 24 hours
+                expiresIn: 60 * 60 * 24, // 24 hours 86400
             });
 
             var authorities = [];
